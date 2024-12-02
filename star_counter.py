@@ -12,7 +12,7 @@ def count_stars(image_path):
     _, thresholded = cv2.threshold(image, 50, 255, cv2.THRESH_BINARY)
     
     # Find contours
-    contours, _ = cv2.findContours(thresholded, cv2.RETR_EXTERNAL, 
+    contours, _ = cv2.findContours(thresholded, cv2.RETR_EXTERNAL,
                                    cv2.CHAIN_APPROX_SIMPLE)
     
     # Count the number of contours (stars)
