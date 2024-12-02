@@ -1,5 +1,6 @@
 import cv2
 
+
 def count_stars(image_path):
     # Load the image
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
