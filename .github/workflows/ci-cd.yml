@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10
+
+    # Install dependencies
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+
+    # Lint the code
+    - name: Lint Code
+      run: flake8 star_counter.py
+
+    # Run tests
+    - name: Run Tests
+      run: pytest
+
+    # Build Docker image
+    - name: Build Docker Image
+      run: docker build -t star-counter:latest .
+
+    # Push Docker image to Docker Hub
+    - name: Push to Docker Hub
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker tag star-counter:latest $DOCKER_USERNAME/star-counter:latest
+        docker push $DOCKER_USERNAME/star-counter:latest
