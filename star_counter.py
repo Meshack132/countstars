@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 def count_stars(image_path):
     # Load the image
@@ -20,8 +19,10 @@ def count_stars(image_path):
     print(f"Number of stars detected: {star_count}")
     return star_count
 
+
 if __name__ == "__main__":
     import argparse
+    
     parser = argparse.ArgumentParser(description="Count stars in an image.")
     parser.add_argument("image_path", help="Path to the input image.")
     args = parser.parse_args()
